@@ -1,0 +1,20 @@
+Step-by-Step Instructions to Run Locally
+Install Flask:
+Ensure Python 3 is installed, then install Flask:
+code
+Bash
+pip install Flask
+Setup Folder Structure:
+Create a folder named kerevat_election and place app.py inside it. Inside kerevat_election, create a subfolder named templates/ and copy the three HTML files (index.html, voting.html, results.html) into it.
+Run the Application:
+Execute the script directly from your terminal:
+code
+Bash
+python app.py
+The database election.db will automatically initialize on first launch with sample candidate rosters and 10 authorized Student IDs.
+Testing the App:
+Navigate to http://localhost:5000 in your web browser.
+Use any test ID from KNS-2026-1001 through KNS-2026-1010 to log in.
+Fill in your ballot, click Review and Confirm Ballot, inspect your choices in the modal, and submit.
+If you try to log in again with the same ID, you will be rejected.
+Access the admin results board at http://localhost:5000/admin-results using the default PIN: kerevat2026.
