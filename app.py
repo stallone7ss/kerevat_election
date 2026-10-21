@@ -256,5 +256,5 @@ import os
 
 if __name__ == '__main__':
     # Reads Render's port 10000 automatically, falls back to 5000 locally
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 1000))
     app.run(host='0.0.0.0', port=port)
