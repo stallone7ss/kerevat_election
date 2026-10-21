@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Ballot | Kerevat National School of Excellence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col font-sans">
+
+    <!-- Header -->
+    <header class="bg-blue-950 border-b-4 border-amber-500 text-white sticky top-0 z-30 shadow-md">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-lg md:text-xl font-bold tracking-wide">KEREVAT NSoE</h1>
+                <p class="text-xs text-amber-400 font-medium">Student Council Official Ballot</p>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span class="text-xs bg-blue-900 border border-blue-700 px-3 py-1.5 rounded-full font-mono text-slate-200">
+                    ID: {{ student_id }}
+                </span>
+                <a href="{{ url_for('logout') }}" class="text-xs text-slate-300 hover:text-white underline">Cancel</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Ballot Container -->
+    <main class="flex-grow max-w-4xl w-full mx-auto p-4 md:py-8">
+        
+        <!-- Flash Alerts -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mb-6 space-y-2">
+                    {% for category, message in messages %}
+                        <div class="p-4 rounded-lg text-sm font-medium
+                            {% if category == 'error' %} bg-rose-50 border border-rose-200 text-rose-700
+                            {% elif category == 'warning' %} bg-amber-50 border border-amber-200 text-amber-800
+                            {% else %} bg-emerald-50 border border-emerald-200 text-emerald-800 {% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form id="ballotForm" action="{{ url_for('voting') }}" method="POST" class="space-y-8">
+            
+            <!-- Position 1: Head Boy -->
+            <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-blue-900 px-6 py-4 text-white flex justify-between items-center">
+                    <h2 class="font-bold text-lg">1. Head Boy</h2>
+                    <span class="text-xs bg-amber-500 text-blue-950 px-2.5 py-1 rounded font-semibold uppercase">Choose 1</span>
+                </div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {% for c in candidates['Head Boy'] %}
+                        <label class="relative flex flex-col p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-blue-900 has-[:checked]:border-blue-900 has-[:checked]:bg-blue-50/50 transition">
+                            <input type="radio" name="head_boy" value="{{ c.id }}" data-name="{{ c.name }}" required
+                                class="h-4 w-4 text-blue-950 focus:ring-blue-900 border-slate-300 mb-3">
+                            <span class="font-bold text-slate-800">{{ c.name }}</span>
+                            <span class="text-xs text-slate-500 mt-0.5">Candidate</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Position 2: Head Girl -->
+            <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-blue-900 px-6 py-4 text-white flex justify-between items-center">
+                    <h2 class="font-bold text-lg">2. Head Girl</h2>
+                    <span class="text-xs bg-amber-500 text-blue-950 px-2.5 py-1 rounded font-semibold uppercase">Choose 1</span>
+                </div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {% for c in candidates['Head Girl'] %}
+                        <label class="relative flex flex-col p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-blue-900 has-[:checked]:border-blue-900 has-[:checked]:bg-blue-50/50 transition">
+                            <input type="radio" name="head_girl" value="{{ c.id }}" data-name="{{ c.name }}" required
+                                class="h-4 w-4 text-blue-950 focus:ring-blue-900 border-slate-300 mb-3">
+                            <span class="font-bold text-slate-800">{{ c.name }}</span>
+                            <span class="text-xs text-slate-500 mt-0.5">Candidate</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Position 3: Vice Prefect -->
+            <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-blue-900 px-6 py-4 text-white flex justify-between items-center">
+                    <h2 class="font-bold text-lg">3. Vice Prefect</h2>
+                    <span class="text-xs bg-amber-500 text-blue-950 px-2.5 py-1 rounded font-semibold uppercase">Choose 1</span>
+                </div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {% for c in candidates['Vice Prefect'] %}
+                        <label class="relative flex flex-col p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-blue-900 has-[:checked]:border-blue-900 has-[:checked]:bg-blue-50/50 transition">
+                            <input type="radio" name="vice_prefect" value="{{ c.id }}" data-name="{{ c.name }}" required
+                                class="h-4 w-4 text-blue-950 focus:ring-blue-900 border-slate-300 mb-3">
+                            <span class="font-bold text-slate-800">{{ c.name }}</span>
+                            <span class="text-xs text-slate-500 mt-0.5">Candidate</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Position 4: General Prefects -->
+            <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-blue-900 px-6 py-4 text-white flex justify-between items-center">
+                    <div>
+                        <h2 class="font-bold text-lg">4. General Prefects</h2>
+                        <p class="text-xs text-slate-300">Select exactly 3 candidates</p>
+                    </div>
+                    <span id="generalBadge" class="text-xs bg-amber-500 text-blue-950 px-2.5 py-1 rounded font-semibold uppercase">0 of 3 Selected</span>
+                </div>
+                <div class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {% for c in candidates['General Prefect'] %}
+                        <label class="relative flex flex-col p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-blue-900 has-[:checked]:border-blue-900 has-[:checked]:bg-blue-50/50 transition">
+                            <input type="checkbox" name="general_prefects" value="{{ c.id }}" data-name="{{ c.name }}"
+                                class="general-checkbox h-4 w-4 text-blue-950 focus:ring-blue-900 border-slate-300 rounded mb-3">
+                            <span class="font-bold text-slate-800">{{ c.name }}</span>
+                            <span class="text-xs text-slate-500 mt-0.5">Candidate</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Submit action trigger -->
+            <div class="pt-4">
+                <button type="button" onclick="openConfirmationModal()"
+                    class="w-full bg-blue-950 hover:bg-blue-900 text-amber-400 font-extrabold text-lg py-4 px-6 rounded-xl shadow-lg transition">
+                    Review and Confirm Ballot &rarr;
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white max-w-lg w-full rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all">
+            <div class="bg-blue-950 px-6 py-4 text-white border-b-2 border-amber-500">
+                <h3 class="text-lg font-bold">Review Your Ballot</h3>
+                <p class="text-xs text-slate-300">Confirm your selections before submitting. Votes cannot be changed.</p>
+            </div>
+            <div class="p-6 space-y-4 text-sm text-slate-700">
+                <div class="border-b pb-2">
+                    <span class="text-xs font-semibold text-slate-400 uppercase">Head Boy:</span>
+                    <p id="reviewHeadBoy" class="font-bold text-slate-900 text-base">-</p>
+                </div>
+                <div class="border-b pb-2">
+                    <span class="text-xs font-semibold text-slate-400 uppercase">Head Girl:</span>
+                    <p id="reviewHeadGirl" class="font-bold text-slate-900 text-base">-</p>
+                </div>
+                <div class="border-b pb-2">
+                    <span class="text-xs font-semibold text-slate-400 uppercase">Vice Prefect:</span>
+                    <p id="reviewVicePrefect" class="font-bold text-slate-900 text-base">-</p>
+                </div>
+                <div>
+                    <span class="text-xs font-semibold text-slate-400 uppercase">General Prefects (3):</span>
+                    <ul id="reviewGeneral" class="font-bold text-slate-900 list-disc list-inside mt-1 space-y-0.5">
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-slate-50 px-6 py-4 flex flex-col sm:flex-row gap-3 justify-end border-t border-slate-200">
+                <button type="button" onclick="closeConfirmationModal()"
+                    class="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-semibold hover:bg-slate-100 transition">
+                    Edit Choices
+                </button>
+                <button type="button" onclick="submitBallot()"
+                    class="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition shadow">
+                    Confirm & Submit Ballot
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client-side validation and Modal Script -->
+    <script>
+        const checkboxes = document.querySelectorAll('.general-checkbox');
+        const badge = document.getElementById('generalBadge');
+
+        // Enforce max 3 selections for general prefects dynamically
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                const checkedCount = document.querySelectorAll('.general-checkbox:checked').length;
+                badge.textContent = `${checkedCount} of 3 Selected`;
+                
+                if (checkedCount > 3) {
+                    cb.checked = false;
+                    alert("You may only select a maximum of 3 General Prefects.");
+                    badge.textContent = "3 of 3 Selected";
+                }
+            });
+        });
+
+        function openConfirmationModal() {
+            const headBoy = document.querySelector('input[name="head_boy"]:checked');
+            const headGirl = document.querySelector('input[name="head_girl"]:checked');
+            const vicePrefect = document.querySelector('input[name="vice_prefect"]:checked');
+            const generals = Array.from(document.querySelectorAll('.general-checkbox:checked'));
+
+            if (!headBoy) {
+                alert("Please select a candidate for Head Boy.");
+                return;
+            }
+            if (!headGirl) {
+                alert("Please select a candidate for Head Girl.");
+                return;
+            }
+            if (!vicePrefect) {
+                alert("Please select a candidate for Vice Prefect.");
+                return;
+            }
+            if (generals.length !== 3) {
+                alert("Please select exactly 3 candidates for General Prefects.");
+                return;
+            }
+
+            // Populate Modal review data
+            document.getElementById('reviewHeadBoy').textContent = headBoy.getAttribute('data-name');
+            document.getElementById('reviewHeadGirl').textContent = headGirl.getAttribute('data-name');
+            document.getElementById('reviewVicePrefect').textContent = vicePrefect.getAttribute('data-name');
+
+            const genList = document.getElementById('reviewGeneral');
+            genList.innerHTML = '';
+            generals.forEach(g => {
+                const li = document.createElement('li');
+                li.textContent = g.getAttribute('data-name');
+                genList.appendChild(li);
+            });
+
+            document.getElementById('confirmModal').classList.remove('hidden');
+        }
+
+        function closeConfirmationModal() {
+            document.getElementById('confirmModal').classList.add('hidden');
+        }
+
+        function submitBallot() {
+            document.getElementById('ballotForm').submit();
+        }
+    </script>
+</body>
+</html>
